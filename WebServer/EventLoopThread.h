@@ -1,6 +1,5 @@
-// @Author Lin Ya
-// @Email xxbbb@vip.qq.com
 #pragma once
+
 #include "EventLoop.h"
 #include "base/Condition.h"
 #include "base/MutexLock.h"
