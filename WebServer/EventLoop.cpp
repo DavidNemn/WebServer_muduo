@@ -11,6 +11,7 @@ using namespace std;
 
 __thread EventLoop* t_loopInThisThread = 0;
 
+// 为了唤醒subreactor
 int createEventfd() {
   int evtfd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
   if (evtfd < 0) {
