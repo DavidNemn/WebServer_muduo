@@ -19,7 +19,7 @@ EventLoopThread::~EventLoopThread() {
 }
 
 
-// 线程跑起来
+// 子线程跑起来
 void EventLoopThread::threadFunc() {
   EventLoop loop;
   {
@@ -31,6 +31,7 @@ void EventLoopThread::threadFunc() {
   loop_ = NULL;
 }
 
+// 主线程运行
 EventLoop* EventLoopThread::startLoop() {
   assert(!thread_.started());
   thread_.start();
