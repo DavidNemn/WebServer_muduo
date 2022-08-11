@@ -1,15 +1,14 @@
-// @Author Lin Ya
-// @Email xxbbb@vip.qq.com
 #include "EventLoopThreadPool.h"
 
-EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop, int numThreads)
-    : baseLoop_(baseLoop), started_(false), numThreads_(numThreads), next_(0) {
+// round bin 就是循环数组
+EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop, int numThreads) : baseLoop_(baseLoop), started_(false), numThreads_(numThreads), next_(0) {
   if (numThreads_ <= 0) {
     LOG << "numThreads_ <= 0";
     abort();
   }
 }
 
+// 关注运行这些函数的线程
 void EventLoopThreadPool::start() {
   baseLoop_->assertInLoopThread();
   started_ = true;
@@ -20,6 +19,7 @@ void EventLoopThreadPool::start() {
   }
 }
 
+// 
 EventLoop *EventLoopThreadPool::getNextLoop() {
   baseLoop_->assertInLoopThread();
   assert(started_);
