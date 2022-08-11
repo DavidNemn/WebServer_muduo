@@ -18,6 +18,19 @@ EventLoopThread::~EventLoopThread() {
   }
 }
 
+
+// 线程跑起来
+void EventLoopThread::threadFunc() {
+  EventLoop loop;
+  {
+    MutexLockGuard lock(mutex_);
+    loop_ = &loop;
+    cond_.notify();
+  }
+  loop.loop();
+  loop_ = NULL;
+}
+
 EventLoop* EventLoopThread::startLoop() {
   assert(!thread_.started());
   thread_.start();
@@ -27,18 +40,4 @@ EventLoop* EventLoopThread::startLoop() {
     while (loop_ == NULL) cond_.wait();
   }
   return loop_;
-}
-
-void EventLoopThread::threadFunc() {
-  EventLoop loop;
-
-  {
-    MutexLockGuard lock(mutex_);
-    loop_ = &loop;
-    cond_.notify();
-  }
-
-  loop.loop();
-  // assert(exiting_);
-  loop_ = NULL;
 }
